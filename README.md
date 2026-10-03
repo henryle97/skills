@@ -73,4 +73,6 @@ for details; reviews are read-only by default.
 ## Contribute
 
 See [AGENTS.md](AGENTS.md) for authoring rules, validation, and releases.
+Run `uvx pre-commit install` once per clone; the hook blocks commits containing
+API keys, credentials, or private keys (gitleaks). CI scans the full history too.
 Use feature branches and open a PR against `main`. Maintainer: `@henry`.
