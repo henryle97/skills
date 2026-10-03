@@ -1,0 +1,14 @@
+{
+  "name": "henry",
+  "owner": {
+    "name": "henry"
+  },
+  "description": "Shared Agent Skills maintained by henry.",
+  "plugins": [
+    {
+      "name": "henry-skills",
+      "source": "./",
+      "description": "Shared Agent Skills maintained by henry."
+    }
+  ]
+}

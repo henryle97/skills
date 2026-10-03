@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.12"
+      - run: uv run --script scripts/validate.py
+      - run: uv run --with pyyaml python -m unittest discover -s tests -v
+
+  version_check:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          filters: |
+            plugin:
+              - 'skills/**'
+              - '.claude-plugin/*'
+              - '.codex-plugin/*'
+              - '.agents/plugins/*'
+      - if: steps.changes.outputs.plugin == 'true'
+        env:
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          VERSION=$(jq -r '.version' .claude-plugin/plugin.json)
+          BASE=$(git show "origin/$BASE_REF:.claude-plugin/plugin.json" | jq -r '.version')
+          scripts/check-version.sh "$VERSION" "$BASE"

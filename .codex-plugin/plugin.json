@@ -1,0 +1,23 @@
+{
+  "name": "henry-skills",
+  "version": "0.2.0",
+  "description": "Shared Agent Skills maintained by henry.",
+  "author": {
+    "name": "henry"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Henry Skills",
+    "shortDescription": "Shared Agent Skills maintained by henry",
+    "longDescription": "Shared Agent Skills maintained by henry, maintained in one repo for Claude Code, Codex and other Agent Skills harnesses.",
+    "developerName": "henry",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Which henry skills can help with this task?"
+    ]
+  }
+}

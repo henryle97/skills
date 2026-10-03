@@ -1,0 +1,3 @@
+interface:
+  display_name: "Project Guidelines"
+  short_description: "Review, init, or update projects against coding guidelines"

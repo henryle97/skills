@@ -1,0 +1,3 @@
+interface:
+  display_name: "Skill Name"
+  short_description: "Short UI blurb, 25 to 64 characters"
