@@ -24,6 +24,28 @@ the bundled Markdown export. Review is read-only by default.
 
 </details>
 
+<details>
+<summary><h4>grilling</h4></summary>
+
+Stress-test a plan, decision, or idea with rounds of numbered questions, each with
+a recommended answer, until every branch of the decision tree is settled.
+From [mattpocock/skills](https://github.com/mattpocock/skills) (MIT).
+
+[Skill instructions](skills/grilling/SKILL.md)
+
+</details>
+
+<details>
+<summary><h4>handoff</h4></summary>
+
+Compact the current conversation into a handoff document so a fresh agent can
+continue the work. User-invoked only.
+From [mattpocock/skills](https://github.com/mattpocock/skills) (MIT).
+
+[Skill instructions](skills/handoff/SKILL.md)
+
+</details>
+
 ## Install
 
 Choose **one route per machine** to avoid duplicate skills. Repository access and
