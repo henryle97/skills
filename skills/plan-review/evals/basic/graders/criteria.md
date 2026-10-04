@@ -4,8 +4,9 @@ weight: 1
 ---
 
 A successful response reviews the supplied draft rather than implementing it.
-It uses all eight distinct roles through independent subagents when available,
-otherwise clearly discloses local passes and any incomplete coverage. UI is
+It triages all eight lenses, states a review size proportionate to the small
+project, uses independent reviewers only for applicable lenses when available,
+and otherwise clearly discloses local passes and any incomplete coverage. UI is
 inapplicable: it does not invent a dashboard. It preserves the small-project scope.
 
 It identifies the conflict between retry behavior and the explicit no-duplicates

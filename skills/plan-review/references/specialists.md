@@ -1,7 +1,8 @@
-# Eight specialist prompts
+# Eight specialist lenses
 
-Use each numbered section as one role assignment, together with the shared
-reviewer contract. Bind the reference suggestions below to real paths and sections
+Each numbered section is one lens. The coordinator triages which apply, then
+assigns one lens or a lens group per reviewer, together with the shared reviewer
+contract. Bind the reference suggestions below to real paths and sections
 from the reference map; filenames here are examples, not assumed evidence.
 
 ## 1. Architecture
@@ -25,10 +26,9 @@ fit actual repository guidance and established conventions. Read applicable
 language/framework standards and representative nearby code. Separate mandatory
 rules from common local practice and personal preferences. Evaluate only choices
 specified or implied by the plan; reserve implementation-level style checks for
-code review. For an applicable coding-guideline assessment, invoke the installed
-`project-guidelines` skill through the current harness (with its namespace when
-required) in review mode. If unavailable, disclose that limitation; continue with
-available repository rules without claiming firm-guideline coverage. Prefer reusing supported mechanisms over introducing a parallel stack.
+code review. Use the repository rules in the packet. Only when the user asked for
+firm-guideline compliance does the coordinator invoke the `project-guidelines`
+skill; otherwise make no firm-guideline coverage claim. Prefer reusing supported mechanisms over introducing a parallel stack.
 
 ## 3. UI/UX and accessibility
 

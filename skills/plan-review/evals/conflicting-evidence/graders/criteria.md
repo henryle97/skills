@@ -11,7 +11,7 @@ not a categorical prohibition on interfaces. It examines the partial-failure
 window between output insertion and marking the event handled against the
 one-effect criterion. It does not assert details of unprovided code.
 
-Eight role coverage is honest, UI is not applicable, and source limitations are
+Eight-lens triage is honest, the review size fits a one-week prototype, UI is not applicable, and source limitations are
 visible. The coordinator resolves disagreements through project requirements,
 not majority voting, asks actionable frontier questions with recommendations,
 and waits. It neither mutates files nor proposes unauthorized new research or

@@ -1,6 +1,6 @@
 ---
 name: plan-review
-description: Review a complete implementation-plan draft before approval with eight evidence-grounded specialist subagents, then grill the user on consequential trade-offs. Use when a drafted plan is ready for review or the user requests plan review; not for early brainstorming or reviewing implemented code.
+description: Review a complete implementation-plan draft before approval with evidence-grounded specialist lenses, scaled to the plan's size and risk, then grill the user on consequential trade-offs. Use when a drafted plan is ready for review or the user requests plan review; not for early brainstorming or reviewing implemented code.
 ---
 
 # Plan Review
@@ -9,6 +9,9 @@ Turn a draft into explicit, defensible decisions. Review the plan, not imaginary
 implementation details. Keep review read-only; propose revisions after agreement,
 and edit a plan file only on an explicit request. Review readiness never authorizes
 implementation, external actions, or expanding the user's scope.
+
+Cost discipline: gather context once, spawn reviewers only for lenses that apply,
+and keep only findings that survive a confidence filter.
 
 ## Establish the review packet
 
@@ -21,44 +24,64 @@ implementation, external actions, or expanding the user's scope.
    locally. Missing plan detail is a question, not evidence of a defective design.
 3. Build a reference map using [references/evidence.md](references/evidence.md).
    Prefer user-provided paths, then relevant research documents in the current
-   repository. Record concrete paths and relevant sections for each specialist.
-   Report missing evidence; new research requires a separate user request.
-4. Freeze the draft for this review round. Give every reviewer the same numbered
-   plan passages or stable file lines, requirements, constraints, and non-goals.
+   repository. Report missing evidence; new research requires a separate user request.
+4. Freeze the draft into one self-contained packet: numbered plan passages,
+   requirements, constraints, non-goals, applicable repository rules, and the
+   **excerpted text** of relevant reference sections (not only paths). Reviewers
+   work from this packet, so the coordinator reads each source once instead of
+   every reviewer rediscovering it.
 
-## Run eight independent reviews
+## Triage lenses and pick the review size
 
-Read [references/specialists.md](references/specialists.md) for the eight role
-prompts and [references/reviewer-contract.md](references/reviewer-contract.md)
-for their shared evidence and output contract.
+[references/specialists.md](references/specialists.md) defines eight lenses:
+architecture, coding standards, UI/UX, performance, security, data and
+correctness, testing, operations. Mark each **applicable** or **not applicable**
+with a one-line reason from the packet. A not-applicable lens gets no reviewer.
 
-Launch one subagent per role, with its role prompt, the shared contract, the frozen
-plan, project constraints, applicable repository rules, and its explicit reference
-map. Give each reviewer access to the assigned documents, not just filenames.
-Ask them to read the relevant sections before judging the plan. Reviewers inspect
-read-only and do not delegate further or receive other reviewers' conclusions.
+Then size the review from the plan, unless the user names a level:
 
-Use parallel execution where supported; otherwise batch within the harness's
-concurrency limit. Collect and release completed agents before opening another
-batch. If delegation is unavailable or prohibited, disclose the limitation and
-provide eight labeled local passes only as a fallback, not independent reviews.
-Report failed or incomplete roles rather than claiming eight completed reviews.
+| Size | When | Reviewers |
+|---|---|---|
+| **small** | Short plan, prototype, single module, low blast radius | One local pass per applicable lens group, no subagents |
+| **standard** (default) | Typical feature or service change | One subagent per applicable lens group below (usually 3–4) |
+| **full** | Large, cross-team, production data or security critical, or user asks | One subagent per applicable lens (up to 8) |
 
-Keep all eight roles. A role outside the project's scope returns “not applicable”
-with its reason; it does not invent work to justify its seat. One initial full
-review is the default. Subsequent review is limited to affected roles and material
-changes, not automatic repetition after every answer.
+Lens groups for standard size: **Design** (architecture + coding standards),
+**Correctness** (data and correctness + testing), **Risk** (security + operations),
+**Performance**, **UI/UX**. Drop a group whose lenses are all not applicable.
+
+State the chosen size and the triage table in the synthesis.
+
+## Run the reviews
+
+Give each reviewer its lens prompt(s) from `references/specialists.md`, the
+shared contract in [references/reviewer-contract.md](references/reviewer-contract.md),
+and the frozen packet. Reviewers inspect read-only, stay inside their lenses, do
+not delegate further, and do not see other reviewers' conclusions. They read code
+or source files only to check a specific claim the packet cannot settle.
+
+Where the harness lets you choose a model per subagent, run reviewers on a faster,
+cheaper tier and keep the coordinator on the main model. Launch all reviewers in
+parallel where supported; otherwise batch within the concurrency limit. If
+delegation is unavailable, disclose it and do labeled local passes instead.
+Report failed or incomplete reviewers rather than claiming full coverage.
+
+Invoke the `project-guidelines` skill only when the user asked for firm-guideline
+compliance; otherwise the coding-standards lens uses the repository rules already
+in the packet.
 
 ## Consolidate before grilling
 
-Check each finding against its cited plan passage, project constraint, and source
-section. Remove misreadings, unsupported factual claims, and generic preferences.
-Merge duplicate consequences while retaining specialist provenance. Keep
-contradictions visible: resolve them against requirements and evidence, not votes.
-Research is evidence, not authority overriding project requirements.
+Drop findings below confidence 80 (see the contract's rubric). Re-check only the
+remaining blockers and majors against their cited plan passage and source excerpt;
+remove misreadings, unsupported claims, and generic preferences. Merge duplicate
+consequences while keeping lens provenance. Keep contradictions visible and resolve
+them against requirements and evidence, not votes. Research is evidence, not
+authority overriding project requirements.
 
 Present a concise initial synthesis:
-- Scope and reference gaps, including incomplete reviewer coverage.
+- Review size, lens triage (all eight, with not-applicable reasons), and reference
+  gaps or incomplete coverage.
 - What to keep and why it fits the project.
 - Ranked consequential findings and their smallest useful corrections.
 - Conflicting recommendations and the trade-off that separates them.
@@ -66,7 +89,7 @@ Present a concise initial synthesis:
 ## Grill the decision frontier
 
 Map unresolved decisions and their prerequisites. Ask only questions whose
-prerequisites are settled; ask the whole current frontier in a numbered round,
+prerequisites are settled, at most five per round, most consequential first,
 then wait. Questions dependent on unanswered choices belong to the next round.
 
 For each question give:
@@ -80,7 +103,7 @@ or stylistic preference. Accept a reasoned risk or deliberate non-goal; reviewer
 are advisers, not an approval committee. Recompute the frontier after answers and
 keep a concise decision ledger. Stop when decisions are settled or the user asks
 to stop; at a stop, disclose what remains unresolved. If answers fundamentally
-change the plan, propose a targeted review of the affected roles and explain why.
+change the plan, propose re-running only the affected lenses and explain why.
 
 ## Finish
 
